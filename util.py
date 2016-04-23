@@ -66,7 +66,7 @@ def makeStr(d):
 def updateVersionFile(path, localData, newVersion):
     localData["VERSION"] = newVersion
 
-    print(json.dumps(localData, sort_keys=False, indent=4, separators=(',', ': ')))
+    #print(json.dumps(localData, sort_keys=False, indent=4, separators=(',', ': ')))
     try:
         with open(path, 'w') as f:
             json.dump(localData, f, sort_keys=False, indent=4,
