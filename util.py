@@ -28,7 +28,6 @@ class VersionData:
 
         elif(string is not None):
             self.string = string
-            print(string)
             self._loadDict(self._makeDict(self.string))
 
         else:
@@ -73,10 +72,10 @@ def parseMechJeb(r):
 
 def syncUpstream(repPath, lBranch="master", uBranch="MuMech"):
 
-    subprocess.check_output(["git", "-C", repPath, "fetch", uBranch])
+    subprocess.check_output(["git", "-C", repPath, "fetch", "upstream"])
     subprocess.check_output(["git", "-C ", repPath, "checkout", lBranch])
     subprocess.check_output(
-        ["git", "-C", repPath, "rebase", uBranch + "/" + lBranch])
+        ["git", "-C", repPath, "rebase", "upstream" + "/" + lBranch])
     subprocess.check_output(["git", "-C", repPath, "push", "origin", lBranch])
 
 
