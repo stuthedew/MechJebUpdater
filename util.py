@@ -107,12 +107,8 @@ def rollbackCommit(repPath):
 
 def compareVersions(local, remote):
     if(local.dict == remote.dict):
-        print("You have the current version of MechJeb2 ({})".format(remote.string))
         return True
     else:
-        rStr = "{} is available. You currently have version {}".format(
-            remote.string, local.string)
-        print(rStr)
         return False
 
 

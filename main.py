@@ -17,9 +17,13 @@ def main():
     #testObj(lObj)
 
     if(compareVersions(lObj, rObj) is False):
+
         repPath = config["LOCAL_BRANCH"]
         tagCurrent(repPath)
         try:
+            rStr = "{} is available. You currently have version {}".format(
+                rObj.string, lObj.string)
+            print(rStr)
             versionPath = repPath + "/MechJeb2.version"
             syncUpstream(repPath)
             updateVersionFile(versionPath, local, rObj.dict)
@@ -29,7 +33,7 @@ def main():
             origObj = VersionData(string=originVersion)
 
 
-            if(compareVersions(rObj, origObj)):
+            if(compareVersions(rObj, origObj) is False):
                 raise AssertionError("Fork ({}) did not update to current MechJeb2 version({})!!!".format(rObj.string, origObj.string))
 
             pushUpdate(repPath)
@@ -41,7 +45,8 @@ def main():
         finally:
             pass
 
-
+    else:
+        print("You have the current version of MechJeb2 ({})".format(lObj.string))
 
 
 if __name__ == '__main__':
