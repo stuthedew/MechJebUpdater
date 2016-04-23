@@ -18,7 +18,7 @@ def main():
 
     if(compareVersions(lObj, rObj) is False):
         syncUpstream(config["LOCAL_BRANCH"])
-        updateVersionFile(config["LOCAL_BRANCH"], local, rObj.dict) #TODO: Update version file
+        updateVersionFile(config["LOCAL_VERSION"], local, rObj.dict) #TODO: Update version file
 
 
 if __name__ == '__main__':
