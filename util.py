@@ -2,6 +2,7 @@ import re
 import json
 import subprocess
 import os
+from collections import OrderedDict
 
 
 def getJson(path):
@@ -16,17 +17,22 @@ config = getJson(local_path +'/updater.config')
 
 
 class VersionData:
-    string = None
-    dict = None
 
-    def __init__(self, dict=None, string=None):
-        if dict is not None:
-            self.dict = dict
+    def __init__(self, d=None, string=None):
+        self.string = None
+        self.dict = OrderedDict.fromkeys(['MAJOR', 'MINOR', 'PATCH', 'BUILD'])
+
+        if d is not None:
+            self._loadDict(d)
             self.string = self._makeStr(self.dict)
 
         elif(string is not None):
             self.string = string
-            self.dict = self._makeDict(self.string)
+            print(string)
+            self._loadDict(self._makeDict(self.string))
+
+        else:
+            raise Exception
 
     def _makeStr(self, d):
         return "{}.{}.{}.{}".format(
@@ -37,16 +43,25 @@ class VersionData:
 
     def _makeDict(self, str):
         s = str.split(".")
-        d = {"MAJOR": int(s[0]), "MINOR" : int(s[1]), "PATCH": int(s[2]), "BUILD": int(s[3])}
-        return d
+
+        _d = {"MAJOR": int(s[0]), "MINOR" : int(s[1]), "PATCH": int(s[2]), "BUILD": int(s[3])}
+        return _d
+
+    def _loadDict(self, oldDict):
+        for key in self.dict:
+            self.dict[key] = oldDict[key]
 
 def validateVersionFile(file):
     pass
 
 
-def updateVersionFile(path, jData):
-    with open(path) as f:
-        json.dump(jData, f, ensure_ascii=False)
+def updateVersionFile(path, localData, newVersion):
+    localData["VERSION"] = newVersion
+
+    print(json.dumps(localData, sort_keys=False, indent=4, separators=(',', ': ')))
+    with open(path, 'w') as f:
+        json.dump(localData, f, sort_keys=False, indent=4, separators=(',', ': '), ensure_ascii=False)
+
 
 
 def parseMechJeb(r):
@@ -55,14 +70,11 @@ def parseMechJeb(r):
 
 
 def syncUpstream(lBranch="master", uBranch="MuMech"):
-    bString = "git -C " + local_path + " fetch " + uBranch
-    subprocess.run(bString, shell=True)
-    bString = "git -C " + local_path + " checkout "  + lBranch
-    subprocess.run(bString, shell=True)
-    bString = "git -C " + local_path + " rebase " + uBranch + "/" + lBranch
-    subprocess.run(bString, shell=True)
-    bString = "git -C " + local_path + " push origin " + lBranch
-    subprocess.run(bString, shell=True)
+
+    subprocess.check_output(["git", "-C", local_path, "fetch", uBranch])
+    subprocess.check_output(["git", "-C ", local_path, "checkout", lBranch])
+    subprocess.check_output(["git", "-C", local_path, "rebase", uBranch + "/" + lBranch])
+    subprocess.check_output(["git", "-C", local_path, "push", "origin", lBranch])
 
 def compareVersions(local, remote):
     if(local.dict == remote.dict):
