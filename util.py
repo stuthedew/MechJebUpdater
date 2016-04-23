@@ -87,7 +87,7 @@ def syncUpstream(repPath, version, lBranch="master", uBranch="MuMech"):
     subprocess.check_output(["git", "-C", repPath, "checkout", lBranch])
     subprocess.check_output(
         ["git", "-C", repPath, "rebase", "upstream/" + lBranch])
-    commitStr = "Update to version {}!".format(version)
+    commitStr = "Updated to version {}!".format(version)
     subprocess.check_output(["git", "-C", repPath, "commit", "-m", commitStr])
     subprocess.check_output(["git", "-C", repPath, "push", "origin", lBranch])
 
