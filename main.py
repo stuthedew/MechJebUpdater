@@ -37,7 +37,7 @@ def main():
                 raise AssertionError("Fork ({}) did not update to current MechJeb2 version({})!!!".format(origObj.string, rObj.string))
 
 
-            pushUpdate(repPath, lObj.string)
+            pushUpdate(repPath, rObj.string)
             removeTag(repPath)
 
         except Exception as e:
