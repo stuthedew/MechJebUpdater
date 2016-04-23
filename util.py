@@ -80,11 +80,17 @@ def parseMechJeb(r):
     d = re.search("AssemblyFileVersion\((.*)\)]", r.text).group(1)
     return d.strip("\"")
 
+def tagCurrent(repPath):
+    subprocess.check_output(["git", "-C", repPath, "tag", "-f", "current"])
+
+def removeTag(repPath):
+    subprocess.check_output(["git", "-C", repPath, "tag", "-d", "current"])
 
 def commitVersion(repPath, version, lBranch="master"):
     subprocess.check_output(["git", "-C", repPath, "checkout", lBranch])
     commitStr = "Updated to version {}!".format(version)
     subprocess.check_output(["git", "-C", repPath, "commit", "-am", commitStr])
+
     subprocess.check_output(["git", "-C", repPath, "push", "origin", lBranch])
 
 def syncUpstream(repPath, lBranch="master", uBranch="MuMech"):
@@ -93,7 +99,8 @@ def syncUpstream(repPath, lBranch="master", uBranch="MuMech"):
     subprocess.check_output(
         ["git", "-C", repPath, "rebase", "upstream/" + lBranch])
 
-
+def rollbackCommit(repPath):
+    subprocess.check_output(["git", "-C", repPath, "reset", "--hard", "current"])
 
 def compareVersions(local, remote):
     if(local.dict == remote.dict):

@@ -18,14 +18,29 @@ def main():
 
     if(compareVersions(lObj, rObj) is False):
         repPath = config["LOCAL_BRANCH"]
-        versionPath = repPath + "/MechJeb2.version"
-        syncUpstream(repPath)
-        updateVersionFile(versionPath, local, rObj.dict)
-        commitVersion(repPath, rObj.string)
+        tagCurrent(repPath)
+        try:
+            versionPath = repPath + "/MechJeb2.version"
+            syncUpstream(repPath)
+            updateVersionFile(versionPath, local, rObj.dict)
+            commitVersion(repPath, rObj.string)
+            o = requests.get(config["URL"]["REMOTE_VERSION"])
+            originVersion = parseMechJeb(o)
+            origObj = VersionData(string=originVersion)
 
-        o = requests.get(config["URL"]["REMOTE_VERSION"])
-        originVersion = parseMechJeb(o)
-        origObj = VersionData(string=originVersion)
+
+            if(compareVersions(rObj, originVersion)):
+                raise AssertionError("Fork ({}) did not update to current MechJeb2 version({})!!!".format(rObj.string, originVersion.string))
+
+        except Exception as e:
+            print(e)
+            rollbackCommit(repPath)
+
+        finally:
+            pass
+
+
+
         if(compareVersions(rObj, originVersion)):
             raise AssertionError("Fork ({}) did not update to current MechJeb2({})!!!".format(rObj.string, originVersion.string))
 
