@@ -41,10 +41,6 @@ def main():
 
 
 
-        if(compareVersions(rObj, originVersion)):
-            raise AssertionError("Fork ({}) did not update to current MechJeb2({})!!!".format(rObj.string, originVersion.string))
-
-
 
 if __name__ == '__main__':
     sys.exit(main())
