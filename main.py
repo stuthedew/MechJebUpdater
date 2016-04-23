@@ -10,7 +10,7 @@ def main():
     local = json.loads(requests.get(config["URL"]["LOCAL_VERSION"]).text)
 
     #print(remoteVersion)
-    pass
+    
     rObj = VersionData(string=remoteVersion)
     lObj = VersionData(dict=local["VERSION"])
     #testObj(rObj)
