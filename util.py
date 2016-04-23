@@ -1,7 +1,7 @@
-import re
 import json
-import subprocess
 import os
+import re
+import subprocess
 from collections import OrderedDict
 
 
@@ -13,7 +13,7 @@ def getJson(path):
 
 os.chdir(os.path.dirname(__file__))
 local_path = os.getcwd()
-config = getJson(local_path +'/updater.config')
+config = getJson(local_path + '/updater.config')
 
 
 class VersionData:
@@ -44,12 +44,14 @@ class VersionData:
     def _makeDict(self, str):
         s = str.split(".")
 
-        _d = {"MAJOR": int(s[0]), "MINOR" : int(s[1]), "PATCH": int(s[2]), "BUILD": int(s[3])}
+        _d = {"MAJOR": int(s[0]), "MINOR": int(
+            s[1]), "PATCH": int(s[2]), "BUILD": int(s[3])}
         return _d
 
     def _loadDict(self, oldDict):
         for key in self.dict:
             self.dict[key] = oldDict[key]
+
 
 def validateVersionFile(file):
     pass
@@ -60,8 +62,8 @@ def updateVersionFile(path, localData, newVersion):
 
     print(json.dumps(localData, sort_keys=False, indent=4, separators=(',', ': ')))
     with open(path, 'w') as f:
-        json.dump(localData, f, sort_keys=False, indent=4, separators=(',', ': '), ensure_ascii=False)
-
+        json.dump(localData, f, sort_keys=False, indent=4,
+                  separators=(',', ': '), ensure_ascii=False)
 
 
 def parseMechJeb(r):
@@ -71,10 +73,12 @@ def parseMechJeb(r):
 
 def syncUpstream(repPath, lBranch="master", uBranch="MuMech"):
 
-    subprocess.check_output(["git", "-C", local_path, "fetch", uBranch])
-    subprocess.check_output(["git", "-C ", local_path, "checkout", lBranch])
-    subprocess.check_output(["git", "-C", local_path, "rebase", uBranch + "/" + lBranch])
-    subprocess.check_output(["git", "-C", local_path, "push", "origin", lBranch])
+    subprocess.check_output(["git", "-C", repPath, "fetch", uBranch])
+    subprocess.check_output(["git", "-C ", repPath, "checkout", lBranch])
+    subprocess.check_output(
+        ["git", "-C", repPath, "rebase", uBranch + "/" + lBranch])
+    subprocess.check_output(["git", "-C", repPath, "push", "origin", lBranch])
+
 
 def compareVersions(local, remote):
     if(local.dict == remote.dict):
@@ -85,6 +89,7 @@ def compareVersions(local, remote):
             remote.string, local.string)
         print(rStr)
         return False
+
 
 def testObj(t):
     print("Testing {}".format(t))
