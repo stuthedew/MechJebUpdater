@@ -9,6 +9,7 @@ def getJson(path):
         j = json.loads(f.read())
 
     return j
+
 os.chdir(os.path.dirname(__file__))
 local_path = os.getcwd()
 config = getJson(local_path +'/updater.config')
@@ -43,15 +44,17 @@ def validateVersionFile(file):
     pass
 
 
-def updateVersionFile():
-    pass
+def updateVersionFile(path, jData):
+    with open(path) as f:
+        json.dump(jData, f, ensure_ascii=False)
+
 
 def parseMechJeb(r):
     d = re.search("AssemblyFileVersion\((.*)\)]", r.text).group(1)
     return d.strip("\"")
 
 
-def syncUpstream(local_path, lBranch="master", uBranch="MuMech"):
+def syncUpstream(lBranch="master", uBranch="MuMech"):
     bString = "git -C " + local_path + " fetch " + uBranch
     subprocess.run(bString, shell=True)
     bString = "git -C " + local_path + " checkout "  + lBranch
