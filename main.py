@@ -38,6 +38,7 @@ def main():
 
 
             pushUpdate(repPath, lObj.string)
+            removeTag(repPath)
 
         except Exception as e:
             print(e)
