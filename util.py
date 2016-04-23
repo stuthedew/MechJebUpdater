@@ -100,6 +100,7 @@ def syncUpstream(repPath, lBranch="master", uBranch="MuMech"):
         ["git", "-C", repPath, "rebase", "upstream/" + lBranch])
 
 def rollbackCommit(repPath):
+    print("Rolling back commit...")
     subprocess.check_output(["git", "-C", repPath, "reset", "--hard", "current"])
 
 def compareVersions(local, remote):
