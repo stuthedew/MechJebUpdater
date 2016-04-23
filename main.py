@@ -36,14 +36,18 @@ def main():
             if(compareVersions(rObj, origObj) is False):
                 raise AssertionError("Fork ({}) did not update to current MechJeb2 version({})!!!".format(origObj.string, rObj.string))
 
-            pushUpdate(repPath, origObj.string)
+
 
         except Exception as e:
             print(e)
             rollbackCommit(repPath)
 
-        finally:
-            pass
+        try:
+            pushUpdate(repPath, origObj.string)
+
+        except Exception as e:
+            print(e)
+            rollbackCommit(repPath)
 
     else:
         print("You have the current version of MechJeb2 ({})".format(lObj.string))
