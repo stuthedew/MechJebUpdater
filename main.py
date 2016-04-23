@@ -19,9 +19,10 @@ def main():
     if(compareVersions(lObj, rObj) is False):
         repPath = config["LOCAL_BRANCH"]
         versionPath = repPath + "/MechJeb2.version"
+        syncUpstream(repPath)
         updateVersionFile(versionPath, local, rObj.dict)
         commitVersion(repPath, rObj.string)
-        syncUpstream(repPath)
+
 
 
 if __name__ == '__main__':

@@ -84,7 +84,8 @@ def parseMechJeb(r):
 def commitVersion(repPath, version, lBranch="master"):
     subprocess.check_output(["git", "-C", repPath, "checkout", lBranch])
     commitStr = "Updated to version {}!".format(version)
-    subprocess.check_output(["git", "-C", repPath, "commit", "-m", commitStr])
+    subprocess.check_output(["git", "-C", repPath, "commit", "-am", commitStr])
+    subprocess.check_output(["git", "-C", repPath, "push", "origin", lBranch])
 
 def syncUpstream(repPath, lBranch="master", uBranch="MuMech"):
     subprocess.check_output(["git", "-C", repPath, "fetch", "upstream"])
@@ -92,8 +93,6 @@ def syncUpstream(repPath, lBranch="master", uBranch="MuMech"):
     subprocess.check_output(
         ["git", "-C", repPath, "rebase", "upstream/" + lBranch])
 
-
-    subprocess.check_output(["git", "-C", repPath, "push", "origin", lBranch])
 
 
 def compareVersions(local, remote):
