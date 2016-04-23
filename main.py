@@ -43,7 +43,7 @@ def main():
             rollbackCommit(repPath)
 
         try:
-            pushUpdate(repPath, origObj.string)
+            pushUpdate(repPath, lObj.string)
 
         except Exception as e:
             print(e)
