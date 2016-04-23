@@ -73,7 +73,7 @@ def parseMechJeb(r):
 def syncUpstream(repPath, lBranch="master", uBranch="MuMech"):
 
     subprocess.check_output(["git", "-C", repPath, "fetch", "upstream"])
-    subprocess.check_output(["git", "-C ", repPath, "checkout", lBranch])
+    subprocess.check_output(["git", "-C", repPath, "checkout", lBranch])
     subprocess.check_output(
         ["git", "-C", repPath, "rebase", "upstream/" + lBranch])
     subprocess.check_output(["git", "-C", repPath, "push", "origin", lBranch])
