@@ -1,6 +1,17 @@
 import re
 import json
 import subprocess
+import os
+
+
+def getJson(path):
+    with open(path) as f:
+        j = json.loads(f.read())
+
+    return j
+os.chdir(os.path.dirname(__file__))
+config = getJson(os.getcwd()+'updater.config')
+local_path =config["LOCAL_PATH"]
 
 class VersionData:
     string = None
@@ -31,6 +42,9 @@ def validateVersionFile(file):
     pass
 
 
+def updateVersionFile():
+    pass
+
 def parseMechJeb(r):
     d = re.search("AssemblyFileVersion\((.*)\)]", r.text).group(1)
     return d.strip("\"")
@@ -60,10 +74,3 @@ def testObj(t):
     print("Testing {}".format(t))
     print(t.string)
     print(t.dict)
-
-
-def getJson(path):
-    with open(path) as f:
-        j = json.loads(f.read())
-
-    return j

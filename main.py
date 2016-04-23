@@ -3,8 +3,6 @@ from util import *
 import requests
 
 def main():
-
-    config = getJson('updater.config')
     local = getJson('MechJeb2.version')
 
     r = requests.get(config["URL"]["REMOTE_VERSION"])
@@ -18,7 +16,7 @@ def main():
     #testObj(rObj)
     #testObj(lObj)
     if(compareVersions(lObj, rObj) is False):
-        syncUpstream(config["LOCAL_PATH"])
+        syncUpstream()
 
 
 if __name__ == '__main__':
