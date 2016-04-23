@@ -24,7 +24,7 @@ class VersionData:
 
         if d is not None:
             self._loadDict(d)
-            self.string = self._makeStr(self.dict)
+            self.string = makeStr(self.dict)
 
         elif(string is not None):
             self.string = string
@@ -56,26 +56,39 @@ def validateVersionFile(file):
     pass
 
 
+def makeStr(d):
+    return "{}.{}.{}.{}".format(
+        d['MAJOR'],
+        d['MINOR'],
+        d['PATCH'],
+        d['BUILD'])
+
 def updateVersionFile(path, localData, newVersion):
     localData["VERSION"] = newVersion
 
     print(json.dumps(localData, sort_keys=False, indent=4, separators=(',', ': ')))
-    with open(path, 'w') as f:
-        json.dump(localData, f, sort_keys=False, indent=4,
-                  separators=(',', ': '), ensure_ascii=False)
+    try:
+        with open(path, 'w') as f:
+            json.dump(localData, f, sort_keys=False, indent=4,
+                      separators=(',', ': '), ensure_ascii=False)
+    except Exception as e:
+        raise e
 
+    print("Updated to {}!".format(makeStr(newVersion)))
 
 def parseMechJeb(r):
     d = re.search("AssemblyFileVersion\((.*)\)]", r.text).group(1)
     return d.strip("\"")
 
 
-def syncUpstream(repPath, lBranch="master", uBranch="MuMech"):
+def syncUpstream(repPath, version, lBranch="master", uBranch="MuMech"):
 
     subprocess.check_output(["git", "-C", repPath, "fetch", "upstream"])
     subprocess.check_output(["git", "-C", repPath, "checkout", lBranch])
     subprocess.check_output(
         ["git", "-C", repPath, "rebase", "upstream/" + lBranch])
+    commitStr = "Update to version {}!".format(version)
+    subprocess.check_output(["git", "-C", repPath, "-m", commitStr])
     subprocess.check_output(["git", "-C", repPath, "push", "origin", lBranch])
 
 
