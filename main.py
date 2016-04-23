@@ -18,7 +18,8 @@ def main():
 
     if(compareVersions(lObj, rObj) is False):
         syncUpstream(config["LOCAL_BRANCH"])
-        updateVersionFile(config["LOCAL_VERSION"], local, rObj.dict) #TODO: Update version file
+        versionPath = config["LOCAL_BRANCH"] + "/MechJeb2.version"
+        updateVersionFile(versionPath, local, rObj.dict) #TODO: Update version file
 
 
 if __name__ == '__main__':
