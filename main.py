@@ -25,6 +25,7 @@ def main():
 
         o = requests.get(config["URL"]["REMOTE_VERSION"])
         originVersion = parseMechJeb(o)
+        origObj = VersionData(string=originVersion)
         if(compareVersions(rObj, originVersion)):
             raise AssertionError("Fork ({}) did not update to current MechJeb2({})!!!".format(rObj.string, originVersion.string))
 
