@@ -37,17 +37,12 @@ def main():
                 raise AssertionError("Fork ({}) did not update to current MechJeb2 version({})!!!".format(origObj.string, rObj.string))
 
 
-
-        except Exception as e:
-            print(e)
-            rollbackCommit(repPath)
-
-        try:
             pushUpdate(repPath, lObj.string)
 
         except Exception as e:
             print(e)
             rollbackCommit(repPath)
+            sys.exit(1)
 
     else:
         print("You have the current version of MechJeb2 ({})".format(lObj.string))
