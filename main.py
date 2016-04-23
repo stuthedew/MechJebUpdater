@@ -45,7 +45,7 @@ def main():
             sys.exit(1)
 
     else:
-        print("You have the current version of MechJeb2 ({})".format(lObj.string))
+        print("You have the current version of MechJeb2 ({})".format(rObj.string))
 
 
 if __name__ == '__main__':
