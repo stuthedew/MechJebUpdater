@@ -81,12 +81,14 @@ def parseMechJeb(r):
     return d.strip("\"")
 
 
-def syncUpstream(repPath, version, lBranch="master", uBranch="MuMech"):
-
-    subprocess.check_output(["git", "-C", repPath, "fetch", "upstream"])
+def commitVersion(repPath, version, lBranch="master"):
     subprocess.check_output(["git", "-C", repPath, "checkout", lBranch])
     commitStr = "Updated to version {}!".format(version)
     subprocess.check_output(["git", "-C", repPath, "commit", "-m", commitStr])
+
+def syncUpstream(repPath, lBranch="master", uBranch="MuMech"):
+    subprocess.check_output(["git", "-C", repPath, "fetch", "upstream"])
+    subprocess.check_output(["git", "-C", repPath, "checkout", lBranch])
     subprocess.check_output(
         ["git", "-C", repPath, "rebase", "upstream/" + lBranch])
 

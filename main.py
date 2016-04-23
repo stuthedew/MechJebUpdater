@@ -17,9 +17,11 @@ def main():
     #testObj(lObj)
 
     if(compareVersions(lObj, rObj) is False):
-        syncUpstream(config["LOCAL_BRANCH"], rObj.string)
-        versionPath = config["LOCAL_BRANCH"] + "/MechJeb2.version"
+        repPath = config["LOCAL_BRANCH"]
+        syncUpstream(repPath)
+        versionPath = repPath + "/MechJeb2.version"
         updateVersionFile(versionPath, local, rObj.dict)
+        commitVersion(repPath, rObj.string)
 
 
 if __name__ == '__main__':
