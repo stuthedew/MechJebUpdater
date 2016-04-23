@@ -88,7 +88,7 @@ def removeTag(repPath):
 def commitVersion(repPath, version, lBranch="master"):
     subprocess.check_output(["git", "-C", repPath, "checkout", lBranch])
     commitStr = "Updated to version {}!".format(version)
-    subprocess.check_output(["git", "-C", repPath, "commit", "-am", commitStr])
+    subprocess.check_output(["git", "-C", repPath, "commit", "-a", "-m", commitStr])
 
 def pushUpdate(repPath, lBranch="master"):
     subprocess.check_output(["git", "-C", repPath, "push", "origin", lBranch])
