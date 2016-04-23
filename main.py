@@ -17,8 +17,8 @@ def main():
     #testObj(lObj)
 
     if(compareVersions(lObj, rObj) is False):
-        syncUpstream()
-        updateVersionFile(config["LOCAL_BRANCH_TEST"], local, rObj.dict) #TODO: Update version file
+        syncUpstream(config["LOCAL_BRANCH"])
+        updateVersionFile(config["LOCAL_BRANCH"], local, rObj.dict) #TODO: Update version file
 
 
 if __name__ == '__main__':

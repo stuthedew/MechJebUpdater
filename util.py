@@ -69,7 +69,7 @@ def parseMechJeb(r):
     return d.strip("\"")
 
 
-def syncUpstream(lBranch="master", uBranch="MuMech"):
+def syncUpstream(repPath, lBranch="master", uBranch="MuMech"):
 
     subprocess.check_output(["git", "-C", local_path, "fetch", uBranch])
     subprocess.check_output(["git", "-C ", local_path, "checkout", lBranch])
