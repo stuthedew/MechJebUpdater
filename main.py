@@ -23,6 +23,11 @@ def main():
         updateVersionFile(versionPath, local, rObj.dict)
         commitVersion(repPath, rObj.string)
 
+        o = requests.get(config["URL"]["REMOTE_VERSION"])
+        originVersion = parseMechJeb(o)
+        if(compareVersions(rObj, originVersion)):
+            raise AssertionError("Fork ({}) did not update to current MechJeb2({})!!!".format(rObj.string, originVersion.string))
+
 
 
 if __name__ == '__main__':
