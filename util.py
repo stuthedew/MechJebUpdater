@@ -90,7 +90,7 @@ def commitVersion(repPath, version, lBranch="master"):
     commitStr = "Updated to version {}!".format(version)
     subprocess.check_output(["git", "-C", repPath, "commit", "-a", "-m", commitStr])
 
-def pushUpdate(repPath, lBranch="master"):
+def pushUpdate(repPath, newVersion, lBranch="master"):
     subprocess.check_output(["git", "-C", repPath, "push", "origin", lBranch])
     print("Updated to {}!".format(makeStr(newVersion)))
 
