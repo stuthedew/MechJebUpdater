@@ -74,7 +74,6 @@ def updateVersionFile(path, localData, newVersion):
     except Exception as e:
         raise e
 
-    print("Updated to {}!".format(makeStr(newVersion)))
 
 def parseMechJeb(r):
     d = re.search("AssemblyFileVersion\((.*)\)]", r.text).group(1)
@@ -93,7 +92,7 @@ def commitVersion(repPath, version, lBranch="master"):
 
 def pushUpdate(repPath, lBranch="master"):
     subprocess.check_output(["git", "-C", repPath, "push", "origin", lBranch])
-    print("Pushed to remote!")
+    print("Updated to {}!".format(makeStr(newVersion)))
 
 def syncUpstream(repPath, lBranch="master", uBranch="MuMech"):
     subprocess.check_output(["git", "-C", repPath, "fetch", "upstream"])
@@ -104,7 +103,7 @@ def syncUpstream(repPath, lBranch="master", uBranch="MuMech"):
 def rollbackCommit(repPath):
     print("Rolling back commit...")
     subprocess.check_output(["git", "-C", repPath, "reset", "--hard", "current"])
-    
+
 
 def compareVersions(local, remote):
     if(local.dict == remote.dict):
