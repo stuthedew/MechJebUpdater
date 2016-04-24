@@ -7,16 +7,16 @@ def main():
     repPath = config["LOCAL_BRANCH"]
     versionPath = repPath + "MechJeb2.version"
 
-    local = getJson(versionPath)
+    remote = getJson(versionPath)
+
 
     u = requests.get(config["URL"]["UPSTREAM_VERSION"])
     upstreamVersion = parseMechJeb(u)
-    #local = json.loads(requests.get(config["URL"]["REMOTE_VERSION"]).text)
+    remote = json.loads(requests.get(config["URL"]["REMOTE_VERSION"]).text)
 
     #print(upstreamVersion)
-
     uObj = VersionData(string=upstreamVersion)
-    rObj = VersionData(d=local["VERSION"])
+    rObj = VersionData(d=remote["VERSION"])
     #testObj(uObj)
     #testObj(rObj)
 
@@ -28,15 +28,16 @@ def main():
             print(rStr)
 
             syncUpstream(repPath)
-            updateVersionFile(versionPath, local, uObj.dict)
+            updateVersionFile(versionPath, remote, uObj.dict)
             commitVersion(repPath, uObj.string)
+            '''
             o = requests.get(config["URL"]["UPSTREAM_VERSION"])
             originVersion = parseMechJeb(o)
             origObj = VersionData(string=originVersion)
 
             if(compareVersions(uObj, origObj) is False):
                 raise AssertionError("Fork ({}) did not update to current MechJeb2 version({})!!!".format(origObj.string, uObj.string))
-
+            '''
             pushUpdate(repPath, uObj.string)
             removeTag(repPath)
 
