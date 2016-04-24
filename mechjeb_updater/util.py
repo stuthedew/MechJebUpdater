@@ -92,7 +92,7 @@ def commitVersion(repPath, version, rBranch="master"):
 
 def pushUpdate(repPath, newVersion, rBranch="master"):
     subprocess.check_output(["git", "-C", repPath, "push", "origin", rBranch])
-    
+
 
 def syncUpstream(repPath, rBranch="master", uBranch="MuMech"):
     subprocess.check_output(["git", "-C", repPath, "fetch", "upstream"])
@@ -105,8 +105,10 @@ def rollbackCommit(repPath):
     subprocess.check_output(["git", "-C", repPath, "reset", "--hard", "current"])
 
 
-def compareVersions(remote, upstream):
-    if(remote.dict == upstream.dict):
+def compareVersions(v1, v2):
+    print(v1.dict)
+    print(v2.dict)
+    if(v1.dict == v2.dict):
         return True
     else:
         return False
