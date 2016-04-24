@@ -3,41 +3,41 @@ from util import *
 import requests
 
 def main():
-    #local = getJson('MechJeb2.version')
 
-    r = requests.get(config["URL"]["REMOTE_VERSION"])
-    remoteVersion = parseMechJeb(r)
-    local = json.loads(requests.get(config["URL"]["LOCAL_VERSION"]).text)
+    repPath = config["LOCAL_BRANCH"]
+    versionPath = repPath + "MechJeb2.version"
 
-    #print(remoteVersion)
+    local = getJson(versionPath)
 
-    rObj = VersionData(string=remoteVersion)
-    lObj = VersionData(d=local["VERSION"])
+    u = requests.get(config["URL"]["UPSTREAM_VERSION"])
+    upstreamVersion = parseMechJeb(u)
+    #local = json.loads(requests.get(config["URL"]["REMOTE_VERSION"]).text)
+
+    #print(upstreamVersion)
+
+    uObj = VersionData(string=upstreamVersion)
+    rObj = VersionData(d=local["VERSION"])
+    #testObj(uObj)
     #testObj(rObj)
-    #testObj(lObj)
 
-    if(compareVersions(lObj, rObj) is False):
-
-        repPath = config["LOCAL_BRANCH"]
+    if(compareVersions(rObj, uObj) is False):
         tagCurrent(repPath)
         try:
             rStr = "{} is available. You currently have version {}".format(
-                rObj.string, lObj.string)
+                uObj.string, rObj.string)
             print(rStr)
-            versionPath = repPath + "/MechJeb2.version"
+
             syncUpstream(repPath)
-            updateVersionFile(versionPath, local, rObj.dict)
-            commitVersion(repPath, rObj.string)
-            o = requests.get(config["URL"]["REMOTE_VERSION"])
+            updateVersionFile(versionPath, local, uObj.dict)
+            commitVersion(repPath, uObj.string)
+            o = requests.get(config["URL"]["UPSTREAM_VERSION"])
             originVersion = parseMechJeb(o)
             origObj = VersionData(string=originVersion)
 
+            if(compareVersions(uObj, origObj) is False):
+                raise AssertionError("Fork ({}) did not update to current MechJeb2 version({})!!!".format(origObj.string, uObj.string))
 
-            if(compareVersions(rObj, origObj) is False):
-                raise AssertionError("Fork ({}) did not update to current MechJeb2 version({})!!!".format(origObj.string, rObj.string))
-
-
-            pushUpdate(repPath, rObj.string)
+            pushUpdate(repPath, uObj.string)
             removeTag(repPath)
 
         except Exception as e:
@@ -46,7 +46,7 @@ def main():
             sys.exit(1)
 
     else:
-        print("You have the current version of MechJeb2 ({})".format(rObj.string))
+        print("You have the current version of MechJeb2 ({})".format(uObj.string))
 
 
 if __name__ == '__main__':

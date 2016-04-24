@@ -12,8 +12,8 @@ def getJson(path):
     return j
 
 os.chdir(os.path.dirname(__file__))
-local_path = os.getcwd()
-config = getJson(local_path + '/../updater.config')
+remote_path = os.getcwd()
+config = getJson(remote_path + '/../updater.config')
 
 
 class VersionData:
@@ -63,13 +63,13 @@ def makeStr(d):
         d['PATCH'],
         d['BUILD'])
 
-def updateVersionFile(path, localData, newVersion):
-    localData["VERSION"] = newVersion
+def updateVersionFile(path, remoteData, newVersion):
+    remoteData["VERSION"] = newVersion
 
-    #print(json.dumps(localData, sort_keys=False, indent=4, separators=(',', ': ')))
+    #print(json.dumps(remoteData, sort_keys=False, indent=4, separators=(',', ': ')))
     try:
         with open(path, 'w') as f:
-            json.dump(localData, f, sort_keys=False, indent=4,
+            json.dump(remoteData, f, sort_keys=False, indent=4,
                       separators=(',', ': '), ensure_ascii=False)
     except Exception as e:
         raise e
@@ -85,28 +85,28 @@ def tagCurrent(repPath):
 def removeTag(repPath):
     subprocess.check_output(["git", "-C", repPath, "tag", "-d", "current"])
 
-def commitVersion(repPath, version, lBranch="master"):
-    subprocess.check_call(["git", "-C", repPath, "checkout", lBranch])
+def commitVersion(repPath, version, rBranch="master"):
+    subprocess.check_call(["git", "-C", repPath, "checkout", rBranch])
     commitStr = "Updated to version {}!".format(version)
     subprocess.check_output(["git", "-C", repPath, "commit", "-a", "-m", commitStr])
 
-def pushUpdate(repPath, newVersion, lBranch="master"):
-    subprocess.check_output(["git", "-C", repPath, "push", "origin", lBranch])
+def pushUpdate(repPath, newVersion, rBranch="master"):
+    subprocess.check_output(["git", "-C", repPath, "push", "origin", rBranch])
     print("Updated to {}!".format(newVersion))
 
-def syncUpstream(repPath, lBranch="master", uBranch="MuMech"):
+def syncUpstream(repPath, rBranch="master", uBranch="MuMech"):
     subprocess.check_output(["git", "-C", repPath, "fetch", "upstream"])
-    subprocess.check_call(["git", "-C", repPath, "checkout", lBranch])
+    subprocess.check_call(["git", "-C", repPath, "checkout", rBranch])
     subprocess.check_output(
-        ["git", "-C", repPath, "rebase", "upstream/" + lBranch])
+        ["git", "-C", repPath, "rebase", "upstream/" + rBranch])
 
 def rollbackCommit(repPath):
     print("Rolling back commit...")
     subprocess.check_output(["git", "-C", repPath, "reset", "--hard", "current"])
 
 
-def compareVersions(local, remote):
-    if(local.dict == remote.dict):
+def compareVersions(remote, upstream):
+    if(remote.dict == upstream.dict):
         return True
     else:
         return False
