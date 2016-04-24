@@ -1,0 +1,4 @@
+#!/usr/bin/env python
+
+import mechjeb_updater
+main()
