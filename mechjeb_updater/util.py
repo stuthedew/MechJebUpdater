@@ -91,7 +91,7 @@ def commitVersion(repPath, version, rBranch="master"):
     subprocess.check_call(["git", "-C", repPath, "commit", "-a", "-m", commitStr])
 
 def pushUpdate(repPath, newVersion, rBranch="master"):
-    subprocess.check_output(["git", "-C", repPath, "push", "origin", rBranch])
+    subprocess.check_call(["git", "-C", repPath, "push", "origin", rBranch], stdout=subprocess.DEVNULL)
 
 
 def syncUpstream(repPath, rBranch="master", uBranch="MuMech"):
