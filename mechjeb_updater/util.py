@@ -106,8 +106,6 @@ def rollbackCommit(repPath):
 
 
 def compareVersions(v1, v2):
-    print(v1.dict)
-    print(v2.dict)
     if(v1.dict == v2.dict):
         return True
     else:
