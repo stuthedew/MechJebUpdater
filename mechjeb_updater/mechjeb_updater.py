@@ -53,7 +53,7 @@ def main():
         print("You have the current version of MechJeb2 ({}) locally".format(uObj.string))
 
     try:
-        if(compareVersions(lObj, rObj) is False):
+        if(compareVersions(uObj, rObj) is False):
             print("Updating remote to {}...".format(lObj.string)),
             pushUpdate(repPath, lObj.string)
             print("done!")
