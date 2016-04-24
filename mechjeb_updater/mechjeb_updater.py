@@ -1,5 +1,5 @@
 import sys
-from mechjeb_updater.util import *
+from util import *
 import requests
 
 def main():
