@@ -83,7 +83,7 @@ def tagCurrent(repPath):
     subprocess.run(["git", "-C", repPath, "tag", "-f", "current"], check=True, stderr=subprocess.PIPE)
 
 def removeTag(repPath):
-    subprocess.run(["git", "-C", repPath, "tag", "-d", "current"], check=True, stderr=subprocess.PIPE)
+    subprocess.run(["git", "-C", repPath, "tag", "-d", "current"], stderr=subprocess.PIPE)
 
 def commitVersion(repPath, version, rBranch="master"):
     subprocess.run(["git", "-C", repPath, "checkout", rBranch])
