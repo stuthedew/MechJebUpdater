@@ -49,14 +49,6 @@ def main():
             rollbackCommit(repPath)
             sys.exit(1)
 
-        try:
-            if(compareVersions(lObj, rObj) is False):
-                pushUpdate(repPath, lObj.string)
-
-        except Exception as e:
-            print(e)
-            sys.exit(1)
-
     else:
         print("You have the current version of MechJeb2 ({}) locally".format(uObj.string))
 
@@ -66,9 +58,13 @@ def main():
             pushUpdate(repPath, lObj.string)
             print("done!")
 
+        else:
+            print("You have the current version of MechJeb2 ({}) remotely".format(uObj.string))
+
     except Exception as e:
         print(e)
         sys.exit(1)
+
 
 
 if __name__ == '__main__':
