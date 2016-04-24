@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/python3.5
 
 import sys
 from mechjeb_updater import mechjeb_updater
