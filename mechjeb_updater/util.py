@@ -13,7 +13,7 @@ def getJson(path):
 
 os.chdir(os.path.dirname(__file__))
 local_path = os.getcwd()
-config = getJson(local_path + '/updater.config')
+config = getJson(local_path + '/../updater.config')
 
 
 class VersionData:
