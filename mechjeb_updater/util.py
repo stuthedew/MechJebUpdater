@@ -80,29 +80,29 @@ def parseMechJeb(r):
     return d.strip("\"")
 
 def tagCurrent(repPath):
-    subprocess.check_output(["git", "-C", repPath, "tag", "-f", "current"])
+    subprocess.run(["git", "-C", repPath, "tag", "-f", "current"])
 
 def removeTag(repPath):
-    subprocess.check_output(["git", "-C", repPath, "tag", "-d", "current"])
+    subprocess.run(["git", "-C", repPath, "tag", "-d", "current"])
 
 def commitVersion(repPath, version, rBranch="master"):
-    subprocess.check_call(["git", "-C", repPath, "checkout", rBranch], stdout=subprocess.DEVNULL)
+    subprocess.run(["git", "-C", repPath, "checkout", rBranch])
     commitStr = "Updated to version {}!".format(version)
-    subprocess.check_call(["git", "-C", repPath, "commit", "-a", "-m", commitStr])
+    subprocess.run(["git", "-C", repPath, "commit", "-a", "-m", commitStr])
 
 def pushUpdate(repPath, newVersion, rBranch="master"):
-    subprocess.check_call(["git", "-C", repPath, "push", "origin", rBranch], stdout=subprocess.DEVNULL)
+    subprocess.run(["git", "-C", repPath, "push", "origin", rBranch])
 
 
 def syncUpstream(repPath, rBranch="master", uBranch="MuMech"):
-    subprocess.check_output(["git", "-C", repPath, "fetch", "upstream"])
-    subprocess.check_call(["git", "-C", repPath, "checkout", rBranch], stdout=subprocess.DEVNULL)
-    subprocess.check_output(
+    subprocess.run(["git", "-C", repPath, "fetch", "upstream"])
+    subprocess.run(["git", "-C", repPath, "checkout", rBranch])
+    subprocess.run(
         ["git", "-C", repPath, "rebase", "upstream/" + rBranch])
 
 def rollbackCommit(repPath):
     print("Rolling back commit...")
-    subprocess.check_output(["git", "-C", repPath, "reset", "--hard", "current"])
+    subprocess.run(["git", "-C", repPath, "reset", "--hard", "current"])
 
 
 def compareVersions(v1, v2):
