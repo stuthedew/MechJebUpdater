@@ -59,7 +59,7 @@ def main():
             print("done!")
 
         else:
-            print("You have the current version of MechJeb2 ({}) remotely".format(lObj.string))
+            print("You have the current version of MechJeb2 ({}) remotely".format(uObj.string))
 
     except Exception as e:
         print(e)
