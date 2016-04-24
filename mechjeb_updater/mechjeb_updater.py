@@ -54,8 +54,8 @@ def main():
 
     try:
         if(compareVersions(uObj, rObj) is False):
-            print("Updating remote to {}...".format(lObj.string)),
-            pushUpdate(repPath, lObj.string)
+            print("Updating remote to {}...".format(uObj.string)),
+            pushUpdate(repPath, uObj.string)
             print("done!")
 
         else:
