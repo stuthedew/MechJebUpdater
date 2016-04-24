@@ -86,7 +86,7 @@ def removeTag(repPath):
     subprocess.check_output(["git", "-C", repPath, "tag", "-d", "current"])
 
 def commitVersion(repPath, version, rBranch="master"):
-    subprocess.check_call(["git", "-C", repPath, "checkout", rBranch])
+    subprocess.check_call(["git", "-C", repPath, "checkout", rBranch], stdout=subprocess.DEVNULL)
     commitStr = "Updated to version {}!".format(version)
     subprocess.check_call(["git", "-C", repPath, "commit", "-a", "-m", commitStr])
 
@@ -96,7 +96,7 @@ def pushUpdate(repPath, newVersion, rBranch="master"):
 
 def syncUpstream(repPath, rBranch="master", uBranch="MuMech"):
     subprocess.check_output(["git", "-C", repPath, "fetch", "upstream"])
-    subprocess.check_call(["git", "-C", repPath, "checkout", rBranch])
+    subprocess.check_call(["git", "-C", repPath, "checkout", rBranch], stdout=subprocess.DEVNULL)
     subprocess.check_output(
         ["git", "-C", repPath, "rebase", "upstream/" + rBranch])
 
