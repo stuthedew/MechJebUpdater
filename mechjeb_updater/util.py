@@ -94,9 +94,9 @@ def commitVersion(repPath, version, rBranch="master"):
 
 def pushUpdate(repPath, newVersion, rBranch="master"):
     try:
-        subprocess.run(["git", "-C", repPath, "push", "origin", rBranch], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+        ret = subprocess.run(["git", "-C", repPath, "push", "origin", rBranch], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     except Exception as e:
-        print(subprocess.CompletedProcess.stderr)
+        print(ret.stderr)
         print(e)
 
 def syncUpstream(repPath, rBranch="master", uBranch="MuMech"):
