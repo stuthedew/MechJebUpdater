@@ -88,26 +88,24 @@ def removeTag(repPath):
 def commitVersion(repPath, version, rBranch="master"):
     subprocess.run(["git", "-C", repPath, "checkout", rBranch])
     commitStr = "Updated to version {}!".format(version)
-    subprocess.run(["git", "-C", repPath, "commit", "-a", "-m", commitStr], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+    subprocess.run(["git", "-C", repPath, "commit", "-a", "-m", commitStr], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
 
 
 def pushUpdate(repPath, newVersion, rBranch="master"):
-    ret=None
+    subprocess.run(["git", "-C", repPath, "push", "origin", rBranch], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
 
-    ret = subprocess.run(["git", "-C", repPath, "push", "origin", rBranch], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-    print(ret.stderr)
 
 
 def syncUpstream(repPath, rBranch="master", uBranch="MuMech"):
-    subprocess.run(["git", "-C", repPath, "fetch", "upstream"], stderr=subprocess.PIPE)
+    subprocess.run(["git", "-C", repPath, "fetch", "upstream"],check=None, stderr=subprocess.PIPE)
     subprocess.run(["git", "-C", repPath, "checkout", rBranch])
     subprocess.run(
-        ["git", "-C", repPath, "rebase", "upstream/" + rBranch], stderr=subprocess.PIPE)
+        ["git", "-C", repPath, "rebase", "upstream/" + rBranch], check=None, stderr=subprocess.PIPE)
 
 def rollbackCommit(repPath):
     print("Rolling back commit...")
-    subprocess.run(["git", "-C", repPath, "reset", "--hard", "current"], stderr=subprocess.PIPE)
+    subprocess.run(["git", "-C", repPath, "reset", "--hard", "current"], check=None, stderr=subprocess.PIPE)
 
 
 def compareVersions(v1, v2):
