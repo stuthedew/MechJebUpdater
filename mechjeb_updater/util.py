@@ -93,6 +93,7 @@ def commitVersion(repPath, version, rBranch="master"):
 
 
 def pushUpdate(repPath, newVersion, rBranch="master"):
+    ret=None
     try:
         ret = subprocess.run(["git", "-C", repPath, "push", "origin", rBranch], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
     except Exception as e:
