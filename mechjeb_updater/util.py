@@ -89,12 +89,12 @@ def commitVersion(repPath, version, rBranch="master"):
     subprocess.run(["git", "-C", repPath, "checkout", rBranch])
     commitStr = "Updated to version {}!".format(version)
     subprocess.run(["git", "-C", repPath, "commit", "-a", "-m", commitStr], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-    
+
 
 
 def pushUpdate(repPath, newVersion, rBranch="master"):
-    subprocess.run(["git", "-C", repPath, "push", "origin", rBranch], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
-
+    subprocess.run(["git", "-C", repPath, "push", "origin", rBranch],check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+    print(subprocess.stderr())
 
 def syncUpstream(repPath, rBranch="master", uBranch="MuMech"):
     subprocess.run(["git", "-C", repPath, "fetch", "upstream"], stderr=subprocess.PIPE)
