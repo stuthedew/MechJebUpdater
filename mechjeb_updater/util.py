@@ -88,7 +88,8 @@ def removeTag(repPath):
 def commitVersion(repPath, version, rBranch="master"):
     subprocess.run(["git", "-C", repPath, "checkout", rBranch])
     commitStr = "Updated to version {}!".format(version)
-    subprocess.run(["git", "-C", repPath, "commit", "-a", "-m", commitStr], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    subprocess.run(["git", "-C", repPath, "commit", "-a", "-m", commitStr], stdout=subprocess.PIPE, stderr=subprocess.PIPE, universal_newlines=True)
+    print(subprocess.stdout())
 
 def pushUpdate(repPath, newVersion, rBranch="master"):
     subprocess.run(["git", "-C", repPath, "push", "origin", rBranch], check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
